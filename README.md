@@ -132,7 +132,6 @@ Replace `<your-gcp-project-id>` accordingly.
 
 To avoid costs, delete the VM when done:
 ```bash
-ssh ansible-free-vm.us-central1-a.i-<your-gcp-project-id>
 gcloud compute instances delete ansible-free-vm --zone=us-central1-a --project=<your-gcp-project-id>
 ```
 
