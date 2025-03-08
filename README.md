@@ -144,7 +144,7 @@ ansible-free-vm ansible_host=<ansible_host> ansible_user=<ansible_user> ansible_
 ```
 
 - Replace `<ansible_host>` with the IP Terraform outputted.  
-- Replace `<ansible_user>` (typically `debian`, `ubuntu`, or `root`).  
+- Replace `<ansible_user>` typically GCP account name.  
 
 ### **Create an Ansible Playbook (`configure_vm.yaml`)**
 ```yaml
