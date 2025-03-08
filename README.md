@@ -2,7 +2,7 @@
 
 # Terraform + Ansible GCP Free-Tier VM
 
-This repository contains Terraform scripts for provisioning a Google Cloud Platform (GCP) free-tier VM and an **Ansible playbook** for post-deployment configuration.
+This repository contains Terraform scripts for provisioning a Google Cloud Platform (GCP) free-tier VM and an Ansible playbook for post-deployment configuration.
 
 ## 📌 Prerequisites
 
