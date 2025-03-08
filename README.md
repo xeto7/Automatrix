@@ -52,7 +52,7 @@ Before creating a VM, enable Compute Engine API. Visit this link (replace with y
 
 https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=\<your-gcp-project-id\>
 
-## 6. Install Dependencies
+## 6. Install Dependencies & GCloud Init
 
 Activate your Python environment, install dependencies and init GCloud:
 ```bash
