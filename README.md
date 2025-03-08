@@ -1,145 +1,193 @@
-![image](https://github.com/mytechnotalent/ansible-gcp-free-tier-vm/blob/main/ansible-gcp-free-tier-vm.png?raw=true)
+![image](https://github.com/mytechnotalent/ansible-gcp-free-tier-vm/blob/main/terraform-ansible-gcp-free-tier-vm.png?raw=true)
 
-# Ansible GCP Free-Tier VM
+# Terraform + Ansible GCP Free-Tier VM
 
-This repository contains an Ansible playbook and detailed instructions for provisioning a Google Cloud Platform (GCP) free-tier VM instance using Ansible automation.
-
----
+This repository contains a **Terraform script** for provisioning a Google Cloud Platform (GCP) free-tier VM and an **Ansible playbook** for post-deployment configuration.
 
 ## 📌 Prerequisites
 
-- Google Cloud account: [console.cloud.google.com](https://console.cloud.google.com)
-- Google Cloud SDK (`gcloud`)
-- Python 3 and pip
-- Ansible
-- Basic YAML understanding
-
----
+- **Google Cloud account**: [console.cloud.google.com](https://console.cloud.google.com)
+- **Google Cloud SDK (`gcloud`)**
+- **Terraform**
+- **Python 3, pip, and Ansible**
+- **Basic YAML & Terraform understanding**
 
 ## ✅ Step-by-Step Guide
 
-## 1. Create a GCP Project
+### 1. Set Up GCP Project & IAM
 
-Log in at [console.cloud.google.com](https://console.cloud.google.com).
+#### **Create a GCP Project**
+1. Log in at [console.cloud.google.com](https://console.cloud.google.com).
+2. Click **New Project**, name it, and copy your **Project ID**.
 
-- Click the **project drop-down** and select **"New Project"**.
-- Give your project a name and copy your **Project ID**.
+#### **Enable Compute Engine API**
+- Visit:  
+  https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=\<your-gcp-project-id\>  
+- Click **ENABLE**.
 
-## 2. Create a Service Account
+#### **Create a Service Account**
+1. Navigate to **IAM & Admin → Service Accounts**.
+2. Click **+ CREATE SERVICE ACCOUNT**.
+3. Name it **terraform-sa**.
+4. Click **DONE**.
 
-- Go to **IAM & Admin → Service Accounts**.
-- Click **+ CREATE SERVICE ACCOUNT**.
-- Name the account (e.g., `ansible-gcp-sa`).
-- Click **DONE**
+#### **Generate JSON Key for the Service Account**
+1. Select your new service account.
+2. Click **KEYS → ADD KEY → Create new key → JSON → CREATE**.
+3. Store the downloaded file at:  
+   `~/.gcp/terraform-key.json`
 
-## 3. Generate JSON Credentials for Service Account
+#### **Assign IAM Roles to Service Account**
+1. Go to **IAM → GRANT ACCESS**.
+2. Click **New principals** and paste your **service account email**.
+3. Assign the following roles:
+   - **Compute Admin**
+   - **Compute Viewer**
+   - **Service Account User**
+4. Click **SAVE**.
 
-- Select your new service account.
-- Click **KEYS → ADD KEY → Create new key → JSON → CREATE**.
-- Store the downloaded file at:
-  `~/.gcp/ansible-key.json`
+### 2. Install Dependencies
 
-## 4. Add IAM Roles
-
-- Click **Service Accounts** and click the `Copy to clipboard` button next to your account.
-- Click **IAM → GRANT ACCESS → Add principals → New principals**.
-- Paste account into field.
-- Under **Assign roles → + ADD ANOTHER ROLE → Select a role → Filter Compute Instance Admin (beta) → + ADD ANOTHER ROLE → Select a role → Filter Compute Viewer → SAVE**
-
-## 5. Enable the Compute Engine API
-
-Before creating a VM, enable Compute Engine API. Visit this link (replace with your Project ID):
-
-https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=\<your-gcp-project-id\>
-
-## 6. Install Dependencies & GCloud Init
-
-Activate your Python environment, install dependencies and init GCloud:
+#### **Install Google Cloud SDK, Terraform, and Ansible**
+Run the following:
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install requests ansible google-auth
-curl https://sdk.cloud.google.com | bash
-exec -l $SHELL
-gcloud init
+curl -sSL https://sdk.cloud.google.com | bash  
+exec -l $SHELL  
+gcloud init  
+brew tap hashicorp/tap  
+brew install terraform  
+python3 -m venv venv  
+source venv/bin/activate  
+pip install requests ansible google-auth  
 ```
 
-## 7. Create the Ansible Playbook
+### 3. Create Terraform Configuration
 
-Create `gcp_vm.yaml` with the following content:
+#### **Terraform Configuration Files**
+
+#### **`variables.tf`**
+```tf
+variable "gcp_project" {  
+  description = "Your GCP project ID"  
+  type        = string  
+}
+
+variable "gcp_zone" {  
+  description = "Compute Engine zone"  
+  type        = string  
+  default     = "us-central1-a"  
+}  
+
+variable "credentials_file" {  
+  description = "Path to GCP JSON credentials"  
+  type        = string  
+  default     = "~/.gcp/terraform-key.json"  
+}  
+```
+
+#### **`terraform.tfvars`**
+```tf
+gcp_project      = "<your-gcp-project-id>"  
+gcp_zone         = "us-central1-a"  
+credentials_file = "~/.gcp/terraform-key.json"  
+```
+
+#### **`main.tf`**
+```tf
+provider "google" {  
+  project     = var.gcp_project  
+  region      = "us-central1"  
+  zone        = var.gcp_zone  
+  credentials = file(var.credentials_file)  
+}  
+
+resource "google_compute_instance" "ansible_free_vm" {  
+  name         = "ansible-free-vm"  
+  machine_type = "e2-micro"  
+
+  boot_disk {  
+    initialize_params {  
+      image = "debian-cloud/debian-11"  
+      size  = 30  
+      type  = "pd-standard"  
+    }  
+  }  
+
+  network_interface {  
+    network = "default"  
+    access_config {}  
+  }  
+}  
+```
+
+#### **`outputs.tf`**
+```tf
+output "vm_public_ip" {  
+  value = google_compute_instance.ansible_free_vm.network_interface[0].access_config[0].nat_ip  
+}  
+```
+
+### **Run Terraform**
+```bash
+terraform init  
+terraform plan  
+terraform apply  
+```
+
+Terraform will output the **VM’s public IP**.
+
+
+### 4. Configure the VM with Ansible
+
+#### **`inventory.ini`**
+```ini
+[gcp]  
+ansible-free-vm 
+ansible_host=<ansible_host>
+ansible_user=<ansible_user> 
+ansible_ssh_private_key_file=~/.ssh/google_compute_engine
+```
+
+- Replace `<ansible_host>` with the IP Terraform outputted.  
+- Replace `<ansible_user>` (typically `debian`, `ubuntu`, or `root`).  
+
+### **Create an Ansible Playbook (`configure_vm.yaml`)**
 ```yaml
-- name: Create a GCP Free Tier VM
-  hosts: localhost
-  gather_facts: no
-  vars:
-    gcp_project: "<your-gcp-project-id>"
-    gcp_zone: "us-central1-a"
-    machine_type: "e2-micro"
-    disk_size: 30
-    disk_type: "pd-standard"
-    service_account_file: "~/.gcp/ansible-key.json"
-    network_name: "default"
+- name: Configure GCP VM  
+  hosts: gcp  
+  tasks:  
 
-  tasks:
-    - name: Create VM instance
-      google.cloud.gcp_compute_instance:
-        name: ansible-free-vm
-        machine_type: "{{ machine_type }}"
-        zone: "{{ gcp_zone }}"
-        project: "{{ gcp_project }}"
-        auth_kind: serviceaccount
-        service_account_file: "{{ service_account_file }}"
-        disks:
-          - auto_delete: true
-            boot: true
-            initialize_params:
-              source_image: "projects/debian-cloud/global/images/family/debian-11"
-              disk_size_gb: "{{ disk_size }}"
-              disk_type: "{{ disk_type }}"
-        network_interfaces:
-          - network:
-              name: "{{ network_name }}"
-            access_configs:
-              - name: External NAT
-                type: ONE_TO_ONE_NAT
-      register: vm_instance
-
-    - name: Display VM details
-      debug:
-        var: vm_instance
+    - name: Create a test directory  
+      file:  
+        path: ~/test  
+        state: directory  
+        mode: '0755'  
 ```
-Replace `"<your-gcp-project-id>"` with your actual GCP project ID.
 
-## 8. Run the Ansible Playbook
-
-Run the playbook with this command:
+### **Run the Playbook**
 ```bash
-ansible-playbook gcp_vm.yaml
+ansible-playbook -i inventory.ini configure_vm.yaml  
 ```
 
-## 9. SSH into Your New VM
-
-Use the following command to connect via SSH:
+## 5. SSH into Your VM
 ```bash
-gcloud config set project <your-gcp-project-id>
-gcloud compute ssh ansible-free-vm --zone=us-central1-a --project=<your-gcp-project-id>
+gcloud compute ssh ansible-free-vm --zone=us-central1-a --project=<your-gcp-project-id>  
 ```
-Replace `<your-gcp-project-id>` accordingly.
 
----
+or using regular SSH:  
+
+```bash
+ssh -i ~/.ssh/google_compute_engine <ansible_user>@<ansible_host>  
+```
 
 ## 🎯 Optional Clean-up
 
-To avoid costs, delete the VM when done:
+### **Delete VM**
 ```bash
-gcloud compute instances delete ansible-free-vm --zone=us-central1-a --project=<your-gcp-project-id>
+terraform destroy  
 ```
 
----
-
-🎉 You're all set! You've successfully automated VM creation on Google Cloud with Ansible!
-
----
+🎉 **Now you have a Terraform + Ansible automation workflow for GCP!** 🚀
 
 ## License
 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
