@@ -136,16 +136,12 @@ terraform apply
 
 Terraform will output the **VM’s public IP**.
 
-
 ### 4. Configure the VM with Ansible
 
 #### **`inventory.ini`**
 ```ini
 [gcp]  
-ansible-free-vm 
-ansible_host=<ansible_host>
-ansible_user=<ansible_user> 
-ansible_ssh_private_key_file=~/.ssh/google_compute_engine
+ansible-free-vm ansible_host=<ansible_host> ansible_user=<ansible_user> ansible_ssh_private_key_file=~/.ssh/google_compute_engine
 ```
 
 - Replace `<ansible_host>` with the IP Terraform outputted.  
