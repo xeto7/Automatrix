@@ -1,0 +1,9 @@
+- name: Configure GCP VM  
+  hosts: gcp  
+  tasks:  
+
+    - name: Create a test directory  
+      file:  
+        path: ~/test  
+        state: directory  
+        mode: '0755'  
