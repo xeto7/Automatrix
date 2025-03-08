@@ -34,8 +34,7 @@ This repository contains a **Terraform script** for provisioning a Google Cloud 
 #### **Generate JSON Key for the Service Account**
 1. Select your new service account.
 2. Click **KEYS → ADD KEY → Create new key → JSON → CREATE**.
-3. Store the downloaded file at:  
-   `~/.gcp/terraform-key.json`
+3. Store the downloaded file at `~/.gcp/terraform-key.json`
 
 #### **Assign IAM Roles to Service Account**
 1. Go to **IAM → GRANT ACCESS**.
