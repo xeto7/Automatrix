@@ -1,8 +1,8 @@
-![image](https://github.com/mytechnotalent/ansible-gcp-free-tier-vm/blob/main/terraform-ansible-gcp-free-tier-vm.png?raw=true)
+![image](https://github.com/mytechnotalent/automatrix/blob/main/automatrix.png?raw=true)
 
-# Terraform + Ansible GCP Free-Tier VM
+# Automatrix
 
-This repository contains Terraform scripts for provisioning a Google Cloud Platform (GCP) free-tier VM and an Ansible playbook for post-deployment configuration.
+Automatrix is a deterministic, infinitely scalable automation framework that fuses Terraform and Ansible to provision, configure, and maintain GCP Free-Tier VMs with absolute precision. Built on immutable infrastructure and idempotent execution, it guarantees every deployment is identical and flawlessly repeatable.
 
 ## ✅ Step-by-Step Guide
 
@@ -75,7 +75,7 @@ pip install ansible google-auth requests
 gcloud compute ssh free-tier-vm --zone=us-central1-a --tunnel-through-iap --project=$(terraform output -raw project_id)
 ```
 
-## 7. Run ALL Ansible Playbooks
+## 7. Run Entire Ansible Suite
 ```bash
 ansible-playbook site.yaml
 ```
