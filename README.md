@@ -56,8 +56,8 @@ locals {
 ## 4. Init, Plan, Apply Terraform
 ```bash
 terraform fmt
-terraform validate
 terraform init
+terraform validate
 terraform plan
 terraform apply -auto-approve 
 ```
