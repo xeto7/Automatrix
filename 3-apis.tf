@@ -7,4 +7,6 @@ resource "google_project_service" "api" {
   timeouts {
     create = local.timeouts
   }
+
+  depends_on = [google_project.new_project]
 }
