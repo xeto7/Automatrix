@@ -70,14 +70,14 @@ pip install --upgrade pip
 pip install ansible google-auth requests
 ```
 
-## 6. Run Ansible Against the VM
-```bash
-ansible-playbook -i inventory.ini configure_vm.yaml
-```
-
-## 7. SSH
+## 6. SSH
 ```bash
 gcloud compute ssh free-tier-vm --zone=us-central1-a --tunnel-through-iap --project=$(terraform output -raw project_id)
+```
+
+## 7. Run Ansible Against the VM
+```bash
+ansible-playbook -i inventory.ini configure_vm.yaml
 ```
 
 ## License
