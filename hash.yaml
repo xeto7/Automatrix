@@ -1,0 +1,11 @@
+- name: Compute SHA-256 hash of a file
+  hosts: gcp
+  tasks:
+    - name: Run SHA-256 hash on the specified file
+      hash:
+        path: "{{ ansible_env.HOME }}/test/hello.txt"
+      register: hash_result
+
+    - name: Display SHA-256 hash output
+      debug:
+        msg: "SHA-256 Hash: {{ hash_result.sha256_hash }}"

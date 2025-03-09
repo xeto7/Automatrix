@@ -82,7 +82,7 @@ ansible-playbook -i inventory.ini configure_vm.yaml
 
 ## 8. Run Ansible Against the VM w/ Custom Module
 ```bash
-ansible-playbook -i inventory.ini xxd.yaml
+ansible-playbook -i inventory.ini xxd.yaml hash.yaml
 ```
 
 ## License
