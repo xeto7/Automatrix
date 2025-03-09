@@ -75,14 +75,14 @@ pip install ansible google-auth requests
 gcloud compute ssh free-tier-vm --zone=us-central1-a --tunnel-through-iap --project=$(terraform output -raw project_id)
 ```
 
-## 7. Run Ansible Against the VM
+## 7. Run ALL Ansible Playbooks
 ```bash
-ansible-playbook -i inventory.ini configure_vm.yaml
+ansible-playbook site.yaml
 ```
 
-## 8. Run Ansible Against the VM w/ Custom Modules
+## 8. Run Individual Ansible Tag 
 ```bash
-ansible-playbook -i inventory.ini xxd.yaml hash.yaml
+ansible-playbook site.yaml --tags "file_analysis"
 ```
 
 ## License

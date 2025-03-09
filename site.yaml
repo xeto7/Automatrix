@@ -1,0 +1,5 @@
+- hosts: all
+  gather_facts: true
+  roles:
+    - configure_vm
+    - file_analysis

@@ -1,0 +1,5 @@
+- block:
+    - import_tasks: hash.yaml
+    - import_tasks: xxd.yaml
+  tags:
+    - file_analysis

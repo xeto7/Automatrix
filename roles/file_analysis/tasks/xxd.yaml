@@ -1,6 +1,5 @@
 - name: Run xxd on a file
-  hosts: gcp
-  tasks:
+  block:
     - name: Run xxd on the specified file
       xxd:
         path: "{{ ansible_env.HOME }}/test/hello.txt"

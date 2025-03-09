@@ -1,6 +1,5 @@
 - name: Compute SHA-256 hash of a file
-  hosts: gcp
-  tasks:
+  block:
     - name: Run SHA-256 hash on the specified file
       hash:
         path: "{{ ansible_env.HOME }}/test/hello.txt"
