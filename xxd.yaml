@@ -1,0 +1,11 @@
+- name: Run xxd on a file
+  hosts: gcp
+  tasks:
+    - name: Run xxd on the specified file
+      xxd:
+        path: "{{ ansible_env.HOME }}/test/hello.txt"
+      register: xxd_result
+
+    - name: Display xxd output
+      debug:
+        var: xxd_result.hex_dump

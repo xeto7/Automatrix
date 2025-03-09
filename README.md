@@ -80,5 +80,10 @@ gcloud compute ssh free-tier-vm --zone=us-central1-a --tunnel-through-iap --proj
 ansible-playbook -i inventory.ini configure_vm.yaml
 ```
 
+## 8. Run Ansible Against the VM w/ Custom Module
+```bash
+ansible-playbook -i inventory.ini xxd.yaml
+```
+
 ## License
 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
