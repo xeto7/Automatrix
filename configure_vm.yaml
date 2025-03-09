@@ -1,9 +1,14 @@
-- name: Configure GCP VM  
-  hosts: gcp  
-  tasks:  
+- name: Configure GCP Free-Tier VM
+  hosts: gcp
+  tasks:
+    - name: Ensure a test directory exists in the user's home directory
+      file:
+        path: "{{ ansible_env.HOME }}/test"
+        state: directory
+        mode: "0755"
 
-    - name: Create a test directory  
-      file:  
-        path: ~/test  
-        state: directory  
-        mode: '0755'  
+    - name: Create a test file in the test directory
+      copy:
+        content: "Hello from Ansible!"
+        dest: "{{ ansible_env.HOME }}/test/hello.txt"
+        mode: "0644"
