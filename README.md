@@ -1,4 +1,4 @@
-![image](https://github.com/mytechnotalent/automatrix/blob/main/automatrix.png?raw=true)
+![image](https://github.com/mytechnotalent/automatrix/blob/main/Automatrix.png?raw=true)
 
 # Automatrix
 
