@@ -5,7 +5,14 @@
         path: "~/test"
         state: directory
         mode: "0755"
-
+    - name: Verify a test directory was successfully created
+      debug:
+        msg: >
+          {%- if create_test_directory | default(true) -%}
+            The test directory '~/test' was created successfully.
+          {%- else -%}
+            The test directory '~/test' was not created successfully.
+          {%- endif -%}
     - name: Create a test file in the test directory
       copy:
         content: "Hello from Ansible!"

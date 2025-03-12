@@ -4,7 +4,6 @@
       xxd:
         path: "{{ ansible_env.HOME }}/test/hello.txt"
       register: xxd_result
-
     - name: Display xxd output
       debug:
         var: xxd_result.hex_dump

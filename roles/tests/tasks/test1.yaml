@@ -1,0 +1,11 @@
+- name: Execute Test Cases - Part 1
+  block:
+    - name: Test Case 1 - Ensure test directory exists
+      file:
+        path: "/tmp/test_dir"
+        state: directory
+      register: test_result_1
+
+    - name: Test Case 2 - Run a command that may fail
+      command: /bin/false
+      register: test_result_2

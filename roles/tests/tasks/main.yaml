@@ -1,0 +1,6 @@
+- block:
+    - import_tasks: test1.yaml
+    - import_tasks: test2.yaml
+  tags:
+    - tests
+  ignore_errors: true

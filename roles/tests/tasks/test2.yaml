@@ -1,0 +1,5 @@
+- name: Execute Test Cases - Part 2
+  block:
+    - name: Test Case 3 - Check if a non-existent user exists
+      command: id fakeuser
+      register: test_result_3

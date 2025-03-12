@@ -1,5 +1,11 @@
 - hosts: all
-  gather_facts: true
+  gather_facts: true 
   roles:
     - configure_vm
     - file_analysis
+
+- hosts: all
+  gather_facts: false
+  roles:
+    - role: tests
+      tags: never  

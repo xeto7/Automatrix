@@ -85,5 +85,11 @@ ansible-playbook site.yaml
 ansible-playbook site.yaml --tags "file_analysis"
 ```
 
+## 9. Run Tests & Review Test Report
+```bash
+./run_tests.sh
+cat report.log
+```
+
 ## License
 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
